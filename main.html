@@ -7,6 +7,15 @@
 <body>
 
 <div id="divboard" onmousemove="showCoords(event)" onmouseout="clearCoor()"></div>
+<br><br><br><br>
+<button type="button" onclick="pencolor='yellow'">Yellow</button>
+<button type="button" onclick="pencolor='red'">Red</button>
+<button type="button" onclick="pencolor='green'">Green</button>
+<button type="button" onclick="pencolor='blue'">Blue</button>
+<button type="button" onclick="pencolor='black'">Black</button>
+<button type="button" onclick="if(size<20)++size">+Size+</button>
+<button type="button" onclick="if(size>1)--size">-Size-</button>
+<button type="button" onclick="pencolor='white'">erase</button>
 
 <p id="board"></p>
 
