@@ -54,9 +54,23 @@ window.onmouseup = function()
 
 function update()
 {
-    if(mouseDown==1 && inboard==true)
+    if(mouseDown==1 && inboard==true && pencolor!='white')
     {
         points.push(draw(x,y));
+    }
+    if(pencolor=='white')
+    {
+        for(var i=0;i<points.length;i++)
+        {
+            var difx=points[i].pozx-x;
+            if(difx<0)difx=-difx;
+            var dify=points[i].pozy-y;
+            if(dify<0)dify=-dify;
+            if(difx<size && dify<size)
+            {
+                points[i].getball.remove();
+            }
+        }
     }
 }
 
