@@ -1,38 +1,41 @@
-var points= [];
-
-var x,y;
+var lines= [];
+var x1,y1,x2,y2;
 var pencolor='black';
 var size=5;
 var inboard=false;
 
 function showCoords(event)
 {
-    x = event.clientX;
-    y = event.clientY;
-    var coor = "X coords: " + x + ", Y coords: " + y;
+    x1 = event.clientX;
+    y1 = event.clientY;
+    var coor = "X coords: " + x1 + ", Y coords: " + y1;
     document.getElementById("board").innerHTML = coor;
     inboard=true;
 }
 
-function draw(x,y)
+function draw()
 {
-    let point = {};
-    point.pozx = x;
-    point.pozy = y;
-    point.getball=document.createElement("div");
-    point.getball.style.width = size + 'px';
-    point.getball.style.height = size + 'px';
-    point.getball.style.borderRadius = '50%';
-    point.getball.style.position = 'absolute';
-    point.getball.style.border = 1 + 'px';
-    point.getball.style.border = 'solid';
-    point.getball.style.color = pencolor;
-    point.getball.style.background = pencolor;
-    point.getball.style.borderColor = pencolor;
-    point.getball.style.left = point.pozx+'px';
-    point.getball.style.top = point.pozy+'px';
-    document.getElementById("divboard").appendChild(point.getball);
-    return point;
+    let line = {};
+    line.pozx1 = x1;
+    line.pozy2 = y1;
+    line.pozx2 = x2;
+    line.pozy2 = y2;
+    const canvas = document.querySelector('#canvas');
+
+    if (!canvas.getContext) {
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+
+    // set line stroke and line width
+    ctx.strokeStyle = pencolor;
+    ctx.lineWidth = size;
+    // draw a red line
+    ctx.beginPath();
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+    return line;
 }
 
 function clearCoor()
@@ -56,21 +59,9 @@ function update()
 {
     if(mouseDown==1 && inboard==true && pencolor!='white')
     {
-        points.push(draw(x,y));
-    }
-    if(pencolor=='white')
-    {
-        for(var i=0;i<points.length;i++)
-        {
-            var difx=points[i].pozx-x;
-            if(difx<0)difx=-difx;
-            var dify=points[i].pozy-y;
-            if(dify<0)dify=-dify;
-            if(difx<size && dify<size)
-            {
-                points[i].getball.remove();
-            }
-        }
+        lines.push(draw(x1, y1,x2,y2));
+        x2 = x1;
+        y2 = y1;
     }
 }
 

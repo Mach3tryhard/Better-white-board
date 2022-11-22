@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <script src="script.js"></script>
-    <head>
+<head>
     <link rel="stylesheet" href="style.css">
-    </head>
-<body>
+    <script src="script.js"></script>
+</head>
+    <body>
+        <canvas onmousemove="showCoords(event)" onmouseout="clearCoor()" id="canvas" height="1000" width="2000">
+        </canvas>
+        <br><br>
+        <button type="button" onclick="pencolor='yellow'">Yellow</button>
+        <button type="button" onclick="pencolor='red'">Red</button>
+        <button type="button" onclick="pencolor='green'">Green</button>
+        <button type="button" onclick="pencolor='blue'">Blue</button>
+        <button type="button" onclick="pencolor='black'">Black</button>
+        <button type="button" onclick="if(size<20)++size">+Size+</button>
+        <button type="button" onclick="if(size>1)--size">-Size-</button>
+        <button type="button" onclick="pencolor='white'">erase</button>
 
-<div id="divboard" onmousemove="showCoords(event)" onmouseout="clearCoor()"></div>
-<br><br>
-<button type="button" onclick="pencolor='yellow'">Yellow</button>
-<button type="button" onclick="pencolor='red'">Red</button>
-<button type="button" onclick="pencolor='green'">Green</button>
-<button type="button" onclick="pencolor='blue'">Blue</button>
-<button type="button" onclick="pencolor='black'">Black</button>
-<button type="button" onclick="if(size<20)++size">+Size+</button>
-<button type="button" onclick="if(size>1)--size">-Size-</button>
-<button type="button" onclick="pencolor='white'">erase</button>
-
-<p id="board"></p>
-
-</body>
+        <p id="board"></p>
+        
+    </body>
 </html>
