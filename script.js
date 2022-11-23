@@ -39,7 +39,7 @@ function showCoords(event)
     function continue_line() {
         const ctx = lines[lines.length - 1];
         ctx.lineTo(x, y);
-        draw(x, y, xp, yp);
+        draw(x-8, y-8, xp-8, yp-8);
         xp = x;
         yp = y;
     }
