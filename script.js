@@ -64,7 +64,6 @@ function erase_line(i)
 {
     
 }
-
 function clearCoor()
 {
     document.getElementById("board").innerHTML = "";
@@ -72,32 +71,23 @@ function clearCoor()
 }
 
 var mouseDown=0;
-window.onmousedown = function(event)
+window.onmousedown = function()
 {
-    ++mouseDown;
-    if(inboard)
+    if (inboard && window.event.button == 0) {
+        ++mouseDown;
         new_line();
+    }
  }
 window.onmouseup = function()
 {
-    --mouseDown;
+    mouseDown=0;
 }
 
 function update()
 {
+    console.log(lines);
     if (mouseDown == 1 && pencolor != 'white'&& inboard) {
         continue_line();
-    }
-    else if (mouseDown == 1  && pencolor == 'white'&& inboard) {
-        if (erase_type == "complex") {
-            for (let i = 0; i < lines.length; i++) {
-                console.log(lines[i].isPointInPath(x, y));
-                if (lines[i].isPointInPath(x, y)) {
-                    alert(hei);
-                    erase_line(i);
-                }
-            }
-        }
     }
 }
 
