@@ -2,10 +2,18 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 </head>
     <body>
-        <canvas  onmousemove="showCoords(event)" onmouseout="clearCoor()" id="canvas" height="700" width="2000">
+        <script>
+            function showCoords(event) {
+                x = event.pageX;
+                y = event.pageY;
+                var coor = "X coords: " + x + ", Y coords: " + y;
+                document.getElementById("board").innerHTML = coor;
+                inboard = true;
+            }
+        </script>
+        <canvas onmousemove="showCoords(event)" onmouseout="clearCoor()" id='canvas'>
         </canvas>
         <br><br>
         <button type="button" onclick="change_color('yellow')">Yellow</button>
@@ -18,6 +26,6 @@
         <button type="button" onclick="change_color('white')">erase</button>
 
         <p id="board"></p>
-        
+        <script src="script.js"></script>
     </body>
 </html>

@@ -1,22 +1,20 @@
-var lines= [];
+var lines = [];
 var x, y;
-var pencolor='black';
-var size=5;
+var pencolor = 'black';
+var size = 5;
 var erase_type = "normal";
 var inboard;
+{
+    const canvas = document.querySelector('#canvas');
+    if (canvas) {
+        canvas.width = screen.width;
+        canvas.height = screen.height;
+    }
+}
 function change_color(color) {
     pencolor = color;
-    if (pencolor == "white")
-        size = 2 * size;
 }
-function showCoords(event)
-{
-    x = event.pageX;
-    y = event.pageY;
-    var coor = "X coords: " + x + ", Y coords: " + y;
-    document.getElementById("board").innerHTML = coor;
-    inboard = true;
-}
+
 {
     let xp, yp;
     function new_line() {
@@ -29,22 +27,19 @@ function showCoords(event)
         ctx.moveTo(x, y);
         xp = x;
         yp = y;
-        ctx.lineWidth = size;
-        ctx.strokeStyle = pencolor;
-        ctx.lineJoin = "round";
-        ctx.lineCap = "round";
         lines.push(ctx);
 
     }
     function continue_line() {
         const ctx = lines[lines.length - 1];
+        ctx.beginPath();
         ctx.lineTo(x, y);
         draw(x, y, xp, yp);
         xp = x;
         yp = y;
     }
 
-    function draw(a,b,c,d) {
+    function draw(a, b, c, d) {
         const canvas = document.querySelector('#canvas');
         if (!canvas.getContext) {
             return;
@@ -54,39 +49,36 @@ function showCoords(event)
         ctx.moveTo(a, b);
         ctx.lineTo(c, d);
         ctx.lineWidth = size;
+        ctx.lineCap = "butt";
+        ctx.setLineDash([2]);
         ctx.strokeStyle = pencolor;
-        ctx.lineJoin = "round";
-        ctx.lineCap = "round";
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        ctx.stroke();
         ctx.stroke();
     }
 }
-function erase_line(i)
-{
-    
+function erase_line(i) {
+
 }
-function clearCoor()
-{
+function clearCoor() {
     document.getElementById("board").innerHTML = "";
-    inboard=false;
+    inboard = false;
 }
 
-var mouseDown=0;
-window.onmousedown = function()
-{
+var mouseDown = 0;
+window.onmousedown = function () {
     if (inboard && window.event.button == 0) {
         ++mouseDown;
         new_line();
     }
- }
-window.onmouseup = function()
-{
-    mouseDown=0;
+}
+window.onmouseup = function () {
+    mouseDown = 0;
 }
 
-function update()
-{
-    console.log(lines);
-    if (mouseDown == 1 && pencolor != 'white'&& inboard) {
+function update() {
+    if (mouseDown == 1 && pencolor != 'white' && inboard) {
         continue_line();
     }
 }
