@@ -1,41 +1,68 @@
 var lines= [];
-var x1,y1,x2,y2;
+var x, y;
 var pencolor='black';
 var size=5;
-var inboard=false;
-
+var erase_type = "normal";
+var inboard;
+function change_color(color) {
+    pencolor = color;
+    if (pencolor == "white")
+        size = 2 * size;
+}
 function showCoords(event)
 {
-    x1 = event.clientX;
-    y1 = event.clientY;
-    var coor = "X coords: " + x1 + ", Y coords: " + y1;
+    x = event.pageX;
+    y = event.pageY;
+    var coor = "X coords: " + x + ", Y coords: " + y;
     document.getElementById("board").innerHTML = coor;
-    inboard=true;
+    inboard = true;
 }
-
-function draw()
 {
-    let line = {};
-    line.pozx1 = x1;
-    line.pozy2 = y1;
-    line.pozx2 = x2;
-    line.pozy2 = y2;
-    const canvas = document.querySelector('#canvas');
+    let xp, yp;
+    function new_line() {
+        const canvas = document.querySelector('#canvas');
+        if (!canvas.getContext) {
+            return;
+        }
+        const ctx = canvas.getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        xp = x;
+        yp = y;
+        ctx.lineWidth = size;
+        ctx.strokeStyle = pencolor;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        lines.push(ctx);
 
-    if (!canvas.getContext) {
-        return;
     }
-    const ctx = canvas.getContext('2d');
+    function continue_line() {
+        const ctx = lines[lines.length - 1];
+        ctx.lineTo(x, y);
+        draw(x, y, xp, yp);
+        xp = x;
+        yp = y;
+    }
 
-    // set line stroke and line width
-    ctx.strokeStyle = pencolor;
-    ctx.lineWidth = size;
-    // draw a red line
-    ctx.beginPath();
-    ctx.moveTo(x2, y2);
-    ctx.lineTo(x1, y1);
-    ctx.stroke();
-    return line;
+    function draw(a,b,c,d) {
+        const canvas = document.querySelector('#canvas');
+        if (!canvas.getContext) {
+            return;
+        }
+        const ctx = canvas.getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(a, b);
+        ctx.lineTo(c, d);
+        ctx.lineWidth = size;
+        ctx.strokeStyle = pencolor;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.stroke();
+    }
+}
+function erase_line(i)
+{
+    
 }
 
 function clearCoor()
@@ -45,11 +72,12 @@ function clearCoor()
 }
 
 var mouseDown=0;
-
-window.onmousedown = function()
-{ 
+window.onmousedown = function(event)
+{
     ++mouseDown;
-}
+    if(inboard)
+        new_line();
+ }
 window.onmouseup = function()
 {
     --mouseDown;
@@ -57,12 +85,23 @@ window.onmouseup = function()
 
 function update()
 {
-    if(mouseDown==1 && inboard==true && pencolor!='white')
-    {
-        lines.push(draw(x1, y1,x2,y2));
-        x2 = x1;
-        y2 = y1;
+    if (mouseDown == 1 && pencolor != 'white'&& inboard) {
+        continue_line();
+    }
+    else if (mouseDown == 1  && pencolor == 'white'&& inboard) {
+        if (erase_type == "complex") {
+            for (let i = 0; i < lines.length; i++) {
+                console.log(lines[i].isPointInPath(x, y));
+                if (lines[i].isPointInPath(x, y)) {
+                    alert(hei);
+                    erase_line(i);
+                }
+            }
+        }
     }
 }
 
-setInterval(update,0);
+setInterval(update, 1);
+//bezier curve
+//only left click
+//make erase

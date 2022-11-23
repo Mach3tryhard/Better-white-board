@@ -5,17 +5,17 @@
     <script src="script.js"></script>
 </head>
     <body>
-        <canvas onmousemove="showCoords(event)" onmouseout="clearCoor()" id="canvas" height="1000" width="2000">
+        <canvas onmousemove="showCoords(event)" onmouseout="clearCoor()" id="canvas" height="700" width="2000">
         </canvas>
         <br><br>
-        <button type="button" onclick="pencolor='yellow'">Yellow</button>
-        <button type="button" onclick="pencolor='red'">Red</button>
-        <button type="button" onclick="pencolor='green'">Green</button>
-        <button type="button" onclick="pencolor='blue'">Blue</button>
-        <button type="button" onclick="pencolor='black'">Black</button>
+        <button type="button" onclick="change_color('yellow')">Yellow</button>
+        <button type="button" onclick="change_color('red')">Red</button>
+        <button type="button" onclick="change_color('green')">Green</button>
+        <button type="button" onclick="change_color('blue')">Blue</button>
+        <button type="button" onclick="change_color('black')">Black</button>
         <button type="button" onclick="if(size<20)++size">+Size+</button>
         <button type="button" onclick="if(size>1)--size">-Size-</button>
-        <button type="button" onclick="pencolor='white'">erase</button>
+        <button type="button" onclick="change_color('white')">erase</button>
 
         <p id="board"></p>
         
