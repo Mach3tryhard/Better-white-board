@@ -24,37 +24,38 @@ function change_color(color) {
         }
         const ctx = canvas.getContext('2d');
         ctx.beginPath();
-        ctx.moveTo(x, y);
         xp = x;
         yp = y;
+        ctx.moveTo(x, y);
         lines.push(ctx);
 
     }
     function continue_line() {
         const ctx = lines[lines.length - 1];
         ctx.beginPath();
+        let a = x;
+        let b = y;
         ctx.lineTo(x, y);
-        draw(x, y, xp, yp);
-        xp = x;
-        yp = y;
+        draw(xp, yp, a, b);
+        xp = a;
+        yp = b;
     }
 
-    function draw(a, b, c, d) {
+    function draw(x1, y1, x2, y2) {
         const canvas = document.querySelector('#canvas');
         if (!canvas.getContext) {
             return;
         }
         const ctx = canvas.getContext('2d');
         ctx.beginPath();
-        ctx.moveTo(a, b);
-        ctx.lineTo(c, d);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.lineWidth = size;
         ctx.lineCap = "butt";
         ctx.setLineDash([2]);
         ctx.strokeStyle = pencolor;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
-        ctx.stroke();
         ctx.stroke();
     }
 }
@@ -67,23 +68,15 @@ function clearCoor() {
 }
 
 var mouseDown = 0;
-window.onmousedown = function () {
+function m_pressed() {
     if (inboard && window.event.button == 0) {
-        ++mouseDown;
         new_line();
-    }
-}
-window.onmouseup = function () {
-    mouseDown = 0;
-}
-
-function update() {
-    if (mouseDown == 1 && pencolor != 'white' && inboard) {
-        continue_line();
+        if (pencolor != 'white') {
+            update=setInterval(continue_line, 1);
+        }
     }
 }
 
-setInterval(update, 1);
-//bezier curve
-//only left click
+document.addEventListener('mousedown', m_pressed);
+document.addEventListener('mouseup', function () { clearInterval(update);});
 //make erase
